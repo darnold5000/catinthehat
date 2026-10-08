@@ -25,6 +25,16 @@ export const metadata: Metadata = createMetadata({
   title: "The Cat. The Hat. — Sighting Archive",
   description:
     "A fictional map of a polite, too-tall cat in a striped hat, currently on the road from Tennessee to Inlet Beach. Click a pin for photos and details.",
+  openGraph: {
+    title: "The Cat. The Hat. — Sighting Archive",
+    description:
+      "Track the tall-hat visitor from Tennessee to Inlet Beach. A cat-in-the-hat sighting map with photos and field notes.",
+  },
+  twitter: {
+    title: "The Cat. The Hat. — Sighting Archive",
+    description:
+      "Track the tall-hat visitor from Tennessee to Inlet Beach. A cat-in-the-hat sighting map with photos and field notes.",
+  },
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
