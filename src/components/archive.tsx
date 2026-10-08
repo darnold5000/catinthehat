@@ -5,6 +5,9 @@ import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLiveLocation, type LocationStatus } from "@/lib/geolocation";
 import {
+  COLUMBUS_GA_CLUSTER,
+  COLUMBUS_GA_CENTER,
+  COLUMBUS_GA_ZOOM,
   FLORIDA_RUN,
   FLORIDA_RUN_CENTER,
   FLORIDA_RUN_ZOOM,
@@ -18,7 +21,7 @@ import {
   type Sighting,
 } from "@/lib/sightings";
 
-type MapView = "tennessee" | "florida-run" | "us";
+type MapView = "tennessee" | "columbus-ga" | "florida-run" | "us";
 
 const SightingsMap = dynamic(() => import("@/components/sightings-map"), {
   ssr: false,
@@ -34,6 +37,7 @@ const KIND_LABEL: Record<Sighting["kind"], string> = {
 
 function clusterChip(sighting: Sighting): string {
   if (sighting.cluster === "florida-run") return "THE DRIVE";
+  if (sighting.cluster === "columbus-ga") return "COLUMBUS GA";
   if (sighting.cluster === "nashville-south") return "TENNESSEE";
   return sighting.state;
 }
@@ -90,6 +94,9 @@ export function Archive() {
     if (next.cluster === "nashville-south") {
       setView("tennessee");
       setMapTarget({ center: [next.lat, next.lng], zoom: 11 });
+    } else if (next.cluster === "columbus-ga") {
+      setView("columbus-ga");
+      setMapTarget({ center: [next.lat, next.lng], zoom: 11 });
     } else if (next.cluster === "florida-run") {
       setView("florida-run");
       setMapTarget({ center: [next.lat, next.lng], zoom: 9 });
@@ -114,13 +121,14 @@ export function Archive() {
                 The Cat. The Hat.
               </h1>
               <p className="mt-1 max-w-xl font-serif text-sm text-[#e8d5b5]/80">
-                A tall-hat visitor is on the road from Tennessee to Inlet Beach. The blue dot is you. The dashed line is him. Do not pick him up, even if he is very polite about the hurricane.
+                A tall-hat visitor is on the road from Tennessee to Inlet Beach. He detoured through Columbus for trampolines. The blue dot is you. The dashed line is him. Do not pick him up, even if he is very polite about the hurricane.
               </p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 font-mono text-[10px] tracking-[0.2em] text-[#e8d5b5]/70">
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{SIGHTINGS.length} SIGHTINGS</span>
-            <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{FLORIDA_RUN.length} ON THE FLORIDA RUN</span>
+            <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{COLUMBUS_GA_CLUSTER.length} COLUMBUS · TRAMPOLINES</span>
+            <span className="border border-[#e8d5b5]/20 px-2 py-1">{FLORIDA_RUN.length} ON THE FLORIDA RUN</span>
             <span className="blink border border-[#e8d5b5]/20 px-2 py-1">STATUS: HEADING TO 30A</span>
           </div>
         </div>
@@ -130,7 +138,7 @@ export function Archive() {
         <section className="flex min-h-[70vh] min-w-0 flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="font-mono text-[10px] tracking-[0.3em] text-[#e8d5b5]/55">
-              NASHVILLE → INLET BEACH · PINS ARE CONFIRMED FILES
+              NASHVILLE → COLUMBUS → INLET BEACH · PINS ARE CONFIRMED FILES
             </p>
             <div className="flex flex-wrap gap-2">
               <button
@@ -147,6 +155,21 @@ export function Archive() {
                 }`}
               >
                 TENNESSEE
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setView("columbus-ga");
+                  setSelectedId("columbus-ga-trampoline");
+                  setMapTarget({ center: COLUMBUS_GA_CENTER, zoom: COLUMBUS_GA_ZOOM });
+                }}
+                className={`font-mono text-[10px] tracking-[0.2em] border px-3 py-1.5 ${
+                  view === "columbus-ga"
+                    ? "border-[#c41e3a] bg-[#c41e3a]/20 text-[#f3e6c8]"
+                    : "border-[#e8d5b5]/25 text-[#e8d5b5]/70 hover:border-[#c41e3a]/60"
+                }`}
+              >
+                COLUMBUS GA
               </button>
               <button
                 type="button"
@@ -201,6 +224,11 @@ export function Archive() {
             {view === "tennessee" ? (
               <p className="pointer-events-none absolute top-3 right-3 z-[400] border border-[#c41e3a]/50 bg-[#0b0708]/80 px-2 py-1 font-mono text-[10px] tracking-[0.25em] text-[#f3e6c8]">
                 SOUTH OF NASHVILLE
+              </p>
+            ) : null}
+            {view === "columbus-ga" ? (
+              <p className="pointer-events-none absolute top-3 right-3 z-[400] border border-[#c41e3a]/50 bg-[#0b0708]/80 px-2 py-1 font-mono text-[10px] tracking-[0.25em] text-[#f3e6c8]">
+                HE LIKES TRAMPOLINES
               </p>
             ) : null}
             {view === "florida-run" ? (

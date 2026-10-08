@@ -1,5 +1,5 @@
 export type SightingKind = "photo" | "trail-cam" | "window" | "roadside";
-export type SightingCluster = "nashville-south" | "florida-run";
+export type SightingCluster = "nashville-south" | "columbus-ga" | "florida-run";
 
 export type Sighting = {
   id: string;
@@ -165,6 +165,79 @@ export const SIGHTINGS: Sighting[] = [
     ],
     image: "/sightings/hatcat-fairview.jpg",
     imageCaption: "Highway 100 at night. Fairview, Tennessee.",
+  },
+  {
+    id: "columbus-ga-trampoline",
+    place: "Backyard on Bradley Drive",
+    city: "Columbus",
+    state: "GA",
+    lat: 32.448,
+    lng: -84.94,
+    date: "October 7, 2026",
+    time: "8:16 PM",
+    kind: "photo",
+    cluster: "columbus-ga",
+    witness: "A ten-year-old who was supposed to be in bed",
+    fileNumber: "GA-041",
+    summary: "He did not knock. He bounced. The hat stayed on.",
+    details:
+      "Columbus, Georgia, after dinner. A backyard camera was still recording because the dog had barked at nothing. Frame one: empty trampoline. Frame two: the Visitor on the mat, upright, hat taller than the safety net. Frame three: mid-air — all four paws tucked, brim perfectly level, like a gymnast who had been doing this for centuries. Frame four: the mat still wobbling, nobody there, except one red-and-white striped sock folded on the spring pad as if he had taken turns politely. The kid at the window counted seven bounces. The counter on the camera says eleven.",
+    oddities: [
+      "Seven bounces counted, camera says eleven",
+      "Hat did not wobble in mid-air",
+      "Striped sock left on the mat, folded",
+      "Dog barked at nothing for twenty minutes after",
+    ],
+    image: "/sightings/hatcat-columbus-ga-trampoline.jpg",
+    imageCaption: "Backyard camera still. Columbus, Georgia.",
+  },
+  {
+    id: "phenix-trampoline",
+    place: "Riverwalk fence, 13th Street",
+    city: "Phenix City",
+    state: "AL",
+    lat: 32.4715,
+    lng: -85.012,
+    date: "October 7, 2026",
+    time: "9:02 PM",
+    kind: "window",
+    cluster: "columbus-ga",
+    witness: "An apartment window and whoever was brushing teeth",
+    fileNumber: "AL-197",
+    summary: "He tested the bounce from the Alabama side. Georgia never noticed.",
+    details:
+      "From a second-story bathroom window, the Chattahoochee looked like spilled ink. In the lit yard across the way — technically still Georgia, emotionally still a trampoline — the Visitor stood with one long paw on the frame, pressing down once, twice, the way you test a diving board before you commit. He looked up at the window. He did not wave. He bounced once, low and courteous, and the hat did not tip. When the toothbrush paused, he was gone. In the morning the trampoline springs were warm and the safety net had a perfect cat-shaped hole that repaired itself by lunch.",
+    oddities: [
+      "Springs still warm at dawn",
+      "Net hole shaped like a cat, self-repaired",
+      "Only one bounce, described as 'very polite'",
+    ],
+    image: "/sightings/hatcat-phenix-trampoline.jpg",
+    imageCaption: "Through the glass. Phenix City, Alabama.",
+  },
+  {
+    id: "columbus-park",
+    place: "Flat Rock Park play field",
+    city: "Columbus",
+    state: "GA",
+    lat: 32.522,
+    lng: -84.878,
+    date: "October 7, 2026",
+    time: "6:47 PM",
+    kind: "photo",
+    cluster: "columbus-ga",
+    witness: "A coach locking the gate who now locks it twice",
+    fileNumber: "GA-044",
+    summary: "He bowed to the trampoline and left chalk that counted itself.",
+    details:
+      "Flat Rock Park after the last soccer practice. The coach turned off the field lights and saw him by the little trampoline pad near the playground — upright, hat scraping the dusk, bowing the way a substitute teacher bows when the bell was wrong but he was trying anyway. The Visitor touched the mat once with two paws, nodded, and walked toward the tree line on his hind legs. Chalk appeared on the sidewalk: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, then a little drawing of a hat. The coach did not have chalk in his bag. The trampoline pad had a single deep bounce dent, like something heavy and happy had visited.",
+    oddities: [
+      "Chalk count to twenty plus hat drawing",
+      "Coach had no chalk",
+      "One deep bounce dent remained until rain",
+    ],
+    image: "/sightings/hatcat-columbus-park.jpg",
+    imageCaption: "Play field at dusk. Columbus, Georgia.",
   },
   {
     id: "ardmore",
@@ -457,12 +530,15 @@ export function getSighting(id: string): Sighting | undefined {
 }
 
 export const TENNESSEE_CLUSTER = SIGHTINGS.filter((s) => s.cluster === "nashville-south");
+export const COLUMBUS_GA_CLUSTER = SIGHTINGS.filter((s) => s.cluster === "columbus-ga");
 export const FLORIDA_RUN = SIGHTINGS.filter((s) => s.cluster === "florida-run");
 
 export const US_CENTER: [number, number] = [39.5, -96.5];
 export const US_ZOOM = 4;
 export const TENNESSEE_CENTER: [number, number] = [35.82, -86.88];
 export const TENNESSEE_ZOOM = 9;
+export const COLUMBUS_GA_CENTER: [number, number] = [32.48, -84.92];
+export const COLUMBUS_GA_ZOOM = 10;
 export const FLORIDA_RUN_CENTER: [number, number] = [32.55, -86.15];
 export const FLORIDA_RUN_ZOOM = 6;
 export const YOU_ARE_HERE_ZOOM = 12;
@@ -471,6 +547,8 @@ export const DRIVE_PATH: [number, number][] = [
   [35.9251, -86.82],
   [35.7512, -86.83],
   [35.5, -86.87],
+  [32.448, -84.94],
+  [32.4715, -85.012],
   [34.992, -86.8445],
   [33.5207, -86.8025],
   [33.1096, -86.7539],
