@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, Polyline, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { SIGHTINGS, type Sighting } from "@/lib/sightings";
+import { DRIVE_PATH, SIGHTINGS, type Sighting } from "@/lib/sightings";
 
 type SightingsMapProps = {
   selectedId: string;
@@ -23,9 +23,9 @@ function youAreHereMarkerIcon() {
   });
 }
 
-function hatIcon(selected: boolean, inCluster: boolean) {
+function hatIcon(selected: boolean, clustered: boolean) {
   return L.divIcon({
-    className: `hat-pin${selected ? " is-selected" : ""}${inCluster ? " is-cluster" : ""}`,
+    className: `hat-pin${selected ? " is-selected" : ""}${clustered ? " is-cluster" : ""}`,
     html: `<span class="hat-pin-stack" aria-hidden="true"><span class="hat-pin-crown"></span><span class="hat-pin-brim"></span><span class="hat-pin-head"></span></span>`,
     iconSize: [28, 46],
     iconAnchor: [14, 44],
@@ -47,7 +47,7 @@ export default function SightingsMap({ selectedId, center, zoom, youAreHere, onS
   const icons = useMemo(() => {
     const map = new Map<string, L.DivIcon>();
     for (const sighting of SIGHTINGS) {
-      map.set(sighting.id, hatIcon(sighting.id === selectedId, sighting.cluster === "nashville-south"));
+      map.set(sighting.id, hatIcon(sighting.id === selectedId, Boolean(sighting.cluster)));
     }
     return map;
   }, [selectedId]);
@@ -79,6 +79,10 @@ export default function SightingsMap({ selectedId, center, zoom, youAreHere, onS
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <FlyTo center={center} zoom={zoom} />
+      <Polyline
+        positions={DRIVE_PATH}
+        pathOptions={{ color: "#c41e3a", weight: 2, opacity: 0.5, dashArray: "6 10" }}
+      />
       {youAreHere ? (
         <Marker
           position={youAreHere}

@@ -2,19 +2,23 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useLiveLocation, type LocationStatus } from "@/lib/geolocation";
 import {
+  FLORIDA_RUN,
+  FLORIDA_RUN_CENTER,
+  FLORIDA_RUN_ZOOM,
   PORTRAIT_SRC,
   SIGHTINGS,
   TENNESSEE_CENTER,
-  TENNESSEE_CLUSTER,
   TENNESSEE_ZOOM,
   US_CENTER,
   US_ZOOM,
-  YOU_ARE_HERE,
   YOU_ARE_HERE_ZOOM,
   type Sighting,
 } from "@/lib/sightings";
+
+type MapView = "tennessee" | "florida-run" | "us";
 
 const SightingsMap = dynamic(() => import("@/components/sightings-map"), {
   ssr: false,
@@ -28,6 +32,19 @@ const KIND_LABEL: Record<Sighting["kind"], string> = {
   roadside: "ROADSIDE",
 };
 
+function clusterChip(sighting: Sighting): string {
+  if (sighting.cluster === "florida-run") return "THE DRIVE";
+  if (sighting.cluster === "nashville-south") return "TENNESSEE";
+  return sighting.state;
+}
+
+function hereLabel(status: LocationStatus): string {
+  if (status === "live") return "YOU ARE HERE · LIVE";
+  if (status === "locating") return "LOCATING YOU…";
+  if (status === "denied") return "LOCATION BLOCKED";
+  return "GPS UNAVAILABLE";
+}
+
 function MapSkeleton() {
   return (
     <div className="flex h-full w-full items-center justify-center bg-[#0b0708] text-[11px] tracking-[0.35em] text-[#e8d5b5]/50">
@@ -37,18 +54,34 @@ function MapSkeleton() {
 }
 
 export function Archive() {
-  const [selectedId, setSelectedId] = useState("franklin");
-  const [view, setView] = useState<"tennessee" | "us">("tennessee");
+  const [selectedId, setSelectedId] = useState("inlet-beach");
+  const [view, setView] = useState<MapView>("florida-run");
   const [mapTarget, setMapTarget] = useState<{ center: [number, number]; zoom: number }>({
-    center: TENNESSEE_CENTER,
-    zoom: TENNESSEE_ZOOM,
+    center: FLORIDA_RUN_CENTER,
+    zoom: FLORIDA_RUN_ZOOM,
   });
-  const youAreHere = YOU_ARE_HERE;
+  const { coords: youAreHere, status: hereStatus, requestLocation } = useLiveLocation();
+  const flyHereWhenReady = useRef(false);
 
   const selected = useMemo(
     () => SIGHTINGS.find((s) => s.id === selectedId) ?? SIGHTINGS[0],
     [selectedId],
   );
+
+  useEffect(() => {
+    if (!flyHereWhenReady.current || !youAreHere) return;
+    flyHereWhenReady.current = false;
+    setMapTarget({ center: youAreHere, zoom: YOU_ARE_HERE_ZOOM });
+  }, [youAreHere]);
+
+  function goToYouAreHere() {
+    requestLocation();
+    if (youAreHere) {
+      setMapTarget({ center: youAreHere, zoom: YOU_ARE_HERE_ZOOM });
+      return;
+    }
+    flyHereWhenReady.current = true;
+  }
 
   function selectSighting(id: string) {
     const next = SIGHTINGS.find((s) => s.id === id);
@@ -57,6 +90,9 @@ export function Archive() {
     if (next.cluster === "nashville-south") {
       setView("tennessee");
       setMapTarget({ center: [next.lat, next.lng], zoom: 11 });
+    } else if (next.cluster === "florida-run") {
+      setView("florida-run");
+      setMapTarget({ center: [next.lat, next.lng], zoom: 9 });
     } else {
       setView("us");
       setMapTarget({ center: [next.lat, next.lng], zoom: 6 });
@@ -78,14 +114,14 @@ export function Archive() {
                 The Cat. The Hat.
               </h1>
               <p className="mt-1 max-w-xl font-serif text-sm text-[#e8d5b5]/80">
-                A tall-hat visitor has been walking upright across the United States. Click a pin. Read the file. Do not invite him in, even if he is very polite.
+                A tall-hat visitor is on the road from Tennessee to Inlet Beach. The blue dot is you. The dashed line is him. Do not pick him up, even if he is very polite about the hurricane.
               </p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 font-mono text-[10px] tracking-[0.2em] text-[#e8d5b5]/70">
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{SIGHTINGS.length} SIGHTINGS</span>
-            <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{TENNESSEE_CLUSTER.length} SOUTH OF NASHVILLE</span>
-            <span className="blink border border-[#e8d5b5]/20 px-2 py-1">STATUS: STILL OUT</span>
+            <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{FLORIDA_RUN.length} ON THE FLORIDA RUN</span>
+            <span className="blink border border-[#e8d5b5]/20 px-2 py-1">STATUS: HEADING TO 30A</span>
           </div>
         </div>
       </header>
@@ -94,9 +130,9 @@ export function Archive() {
         <section className="flex min-h-[70vh] min-w-0 flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="font-mono text-[10px] tracking-[0.3em] text-[#e8d5b5]/55">
-              MAP OF THE UNITED STATES · PINS ARE CONFIRMED FILES
+              NASHVILLE → INLET BEACH · PINS ARE CONFIRMED FILES
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -110,14 +146,26 @@ export function Archive() {
                     : "border-[#e8d5b5]/25 text-[#e8d5b5]/70 hover:border-[#c41e3a]/60"
                 }`}
               >
-                TENNESSEE CLUSTER
+                TENNESSEE
               </button>
               <button
                 type="button"
                 onClick={() => {
-                  setView("tennessee");
-                  setMapTarget({ center: youAreHere, zoom: YOU_ARE_HERE_ZOOM });
+                  setView("florida-run");
+                  setSelectedId("inlet-beach");
+                  setMapTarget({ center: FLORIDA_RUN_CENTER, zoom: FLORIDA_RUN_ZOOM });
                 }}
+                className={`font-mono text-[10px] tracking-[0.2em] border px-3 py-1.5 ${
+                  view === "florida-run"
+                    ? "border-[#c41e3a] bg-[#c41e3a]/20 text-[#f3e6c8]"
+                    : "border-[#e8d5b5]/25 text-[#e8d5b5]/70 hover:border-[#c41e3a]/60"
+                }`}
+              >
+                FLORIDA RUN
+              </button>
+              <button
+                type="button"
+                onClick={goToYouAreHere}
                 className="border border-[#3b82f6]/70 px-3 py-1.5 font-mono text-[10px] tracking-[0.2em] text-[#9ec0ff] hover:bg-[#3b82f6]/15"
               >
                 YOU ARE HERE
@@ -148,11 +196,16 @@ export function Archive() {
             />
             <p className="pointer-events-none absolute bottom-3 left-3 z-[400] flex items-center gap-2 border border-[#3b82f6]/50 bg-[#0b0708]/80 px-2 py-1 font-mono text-[10px] tracking-[0.25em] text-[#9ec0ff]">
               <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#3b82f6] shadow-[0_0_8px_#3b82f6]" aria-hidden="true" />
-              YOU ARE HERE
+              {hereLabel(hereStatus)}
             </p>
             {view === "tennessee" ? (
               <p className="pointer-events-none absolute top-3 right-3 z-[400] border border-[#c41e3a]/50 bg-[#0b0708]/80 px-2 py-1 font-mono text-[10px] tracking-[0.25em] text-[#f3e6c8]">
                 SOUTH OF NASHVILLE
+              </p>
+            ) : null}
+            {view === "florida-run" ? (
+              <p className="pointer-events-none absolute top-3 right-3 z-[400] border border-[#c41e3a]/50 bg-[#0b0708]/80 px-2 py-1 font-mono text-[10px] tracking-[0.25em] text-[#f3e6c8]">
+                THE DRIVE TO 30A
               </p>
             ) : null}
           </div>
@@ -169,7 +222,7 @@ export function Archive() {
                   }`}
                 >
                   <span className="block font-mono text-[9px] tracking-[0.18em] text-[#c41e3a]">
-                    {sighting.cluster ? "NEAR YOU" : sighting.state} · {KIND_LABEL[sighting.kind]}
+                    {clusterChip(sighting)} · {KIND_LABEL[sighting.kind]}
                   </span>
                   <span className="block font-serif text-sm text-[#f3e6c8]">{sighting.city}</span>
                 </button>
@@ -221,7 +274,7 @@ export function Archive() {
           FICTIONAL SIGHTING ARCHIVE · THE VISITOR IS NOT REAL · PROBABLY
         </p>
         <p className="mt-2 font-serif text-xs text-[#e8d5b5]/45">
-          Original tall-hat cat. Campfire story only. If you see a polite cat in a hat south of Nashville, it is almost certainly a raccoon in a party hat.
+          Original tall-hat cat. Campfire story only. If you see a polite cat in a hat on I-65 holding a hurricane sign, do not give him a ride.
         </p>
       </footer>
     </div>

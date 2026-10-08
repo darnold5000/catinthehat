@@ -24,7 +24,7 @@ const mono = Share_Tech_Mono({
 export const metadata: Metadata = createMetadata({
   title: "The Cat. The Hat. — Sighting Archive",
   description:
-    "A fictional map of United States sightings of a polite, too-tall cat in a striped hat. Click a pin for photos and details.",
+    "A fictional map of a polite, too-tall cat in a striped hat, currently on the road from Tennessee to Inlet Beach. Click a pin for photos and details.",
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

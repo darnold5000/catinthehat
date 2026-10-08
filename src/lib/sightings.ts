@@ -1,4 +1,5 @@
 export type SightingKind = "photo" | "trail-cam" | "window" | "roadside";
+export type SightingCluster = "nashville-south" | "florida-run";
 
 export type Sighting = {
   id: string;
@@ -10,7 +11,7 @@ export type Sighting = {
   date: string;
   time: string;
   kind: SightingKind;
-  cluster?: "nashville-south";
+  cluster?: SightingCluster;
   witness: string;
   fileNumber: string;
   summary: string;
@@ -166,6 +167,150 @@ export const SIGHTINGS: Sighting[] = [
     imageCaption: "Highway 100 at night. Fairview, Tennessee.",
   },
   {
+    id: "ardmore",
+    place: "Alabama Welcome Center, I-65",
+    city: "Ardmore",
+    state: "AL",
+    lat: 34.992,
+    lng: -86.8445,
+    date: "October 8, 2026",
+    time: "6:41 AM",
+    kind: "photo",
+    cluster: "florida-run",
+    witness: "A family that only stopped to photograph the sign",
+    fileNumber: "AL-201",
+    summary: "He was already under Welcome to Alabama, as if he had been holding the state line.",
+    details:
+      "Dawn on I-65. The Welcome Center lights were still on. The Visitor stood beside the brick sign in that impossible hat, waiting like a greeter who had not been hired. A minivan pulled in for the usual border photo. In every frame the family later printed, he is in the background, perfectly still, smiling too much. The brochure rack had been restocked overnight with a single pamphlet: What To Do When the Water Comes. Nobody remembers stocking it.",
+    oddities: [
+      "Border photo has an extra tall figure in every print",
+      "Only one pamphlet left in the rack",
+      "Greeter swore she had already said good morning to him",
+    ],
+    image: "/sightings/hatcat-ardmore.jpg",
+    imageCaption: "Welcome Center at dawn. Ardmore, Alabama.",
+  },
+  {
+    id: "birmingham",
+    place: "Shoulder of I-65, downtown",
+    city: "Birmingham",
+    state: "AL",
+    lat: 33.5207,
+    lng: -86.8025,
+    date: "October 8, 2026",
+    time: "8:12 AM",
+    kind: "roadside",
+    cluster: "florida-run",
+    witness: "A trucker who radioed it in and then unsay the radio",
+    fileNumber: "AL-208",
+    summary: "He walked the white line toward Florida like the speed limit was a suggestion.",
+    details:
+      "Morning traffic stacked under the overpasses. On the shoulder, facing the wrong way if you believe in cars, the Visitor walked south with the hat in the skyline. Trucks honked. He tipped the brim without breaking stride. A DOT camera kept three seconds. Frame one: the cat. Frame two: the hat. Frame three: only the painted line, still wet, as if something very polite had just passed.",
+    oddities: [
+      "Walking against traffic, never hit",
+      "DOT clip is three frames and then snow",
+      "Shoulder paint was wet with no rain",
+    ],
+    image: "/sightings/hatcat-birmingham.jpg",
+    imageCaption: "I-65 shoulder. Birmingham, Alabama.",
+  },
+  {
+    id: "calera",
+    place: "Giant beaver travel center, I-65",
+    city: "Calera",
+    state: "AL",
+    lat: 33.1096,
+    lng: -86.7539,
+    date: "October 8, 2026",
+    time: "9:04 AM",
+    kind: "photo",
+    cluster: "florida-run",
+    witness: "A cashier who does not remember taking the jerky",
+    fileNumber: "AL-214",
+    summary: "He posed with the beaver. The beaver did not ask to be posed with.",
+    details:
+      "The busiest bathroom in Alabama. Fluorescent noon at 9 AM. The Visitor stood in the parking lot beside the giant beaver, holding a bag of jerky as if it were a diplomatic gift. He did not get in line. He did not blink in the photos. By the time the next car parked, the beaver statue was wearing a tiny red-and-white paper hat that would not stay on in the wind and also would not come off. The cashier found a damp sand dollar in the till.",
+    oddities: [
+      "Beaver statue acquired a paper hat",
+      "Sand dollar in the register",
+      "Jerky bag empty, receipt printed 00:00",
+    ],
+    image: "/sightings/hatcat-calera.jpg",
+    imageCaption: "Travel-center lot. Calera, Alabama.",
+  },
+  {
+    id: "dothan",
+    place: "The big peanut in the park",
+    city: "Dothan",
+    state: "AL",
+    lat: 31.2232,
+    lng: -85.3905,
+    date: "October 8, 2026",
+    time: "12:18 PM",
+    kind: "photo",
+    cluster: "florida-run",
+    witness: "A kid with boiled peanuts who is still waiting for a thank-you",
+    fileNumber: "AL-221",
+    summary: "He inspected the giant peanut. The peanut did not pass.",
+    details:
+      "Last real stop before the panhandle. Humid noon. The Visitor stood at the peanut monument and tapped it once, like a man checking a melon. A kid offered him a boiled peanut from a paper bag. He accepted with both hands, very grave, and did not eat it. At dusk the same peanut was found on top of a streetlight, steaming, which boiled peanuts should not do at dusk. The monument had a new hairline crack in the shape of a brim.",
+    oddities: [
+      "Boiled peanut later found on a streetlight",
+      "Hairline crack shaped like a hat brim",
+      "Kid says he bowed before taking it",
+    ],
+    image: "/sightings/hatcat-dothan.jpg",
+    imageCaption: "Peanut monument. Dothan, Alabama.",
+  },
+  {
+    id: "panama-city",
+    place: "Hathaway Bridge walkway",
+    city: "Panama City",
+    state: "FL",
+    lat: 30.1872,
+    lng: -85.73,
+    date: "October 8, 2026",
+    time: "3:03 PM",
+    kind: "photo",
+    cluster: "florida-run",
+    witness: "A driver who slowed down and caused a polite backup",
+    fileNumber: "FL-301",
+    summary: "He checked the wind over the bay. The flags all agreed with him.",
+    details:
+      "The bridge to the beach towns was already swaying in a weather that had not been named yet. Mid-span, on the pedestrian rail, the Visitor stood with one long claw up, testing the air the way a cook tests an oven. Condo towers in the distance. Water the wrong green. Cars slowed. Someone filmed it and swore it was a mascot. Then every flag on the bridge pointed inland at the same second, and he was already walking west, toward 30A, hat first.",
+    oddities: [
+      "All bridge flags pointed inland at once",
+      "Bay water described as 'the wrong green'",
+      "Phone video skips the moment he leaves",
+    ],
+    image: "/sightings/hatcat-panama-city.jpg",
+    imageCaption: "Hathaway Bridge. Panama City, Florida.",
+  },
+  {
+    id: "inlet-beach",
+    place: "Dune line, public beach access",
+    city: "Inlet Beach",
+    state: "FL",
+    lat: 30.2756,
+    lng: -86.0015,
+    date: "October 8, 2026",
+    time: "5:55 PM",
+    kind: "photo",
+    cluster: "florida-run",
+    witness: "A couple who thought it was a costume until the gulf went flat",
+    fileNumber: "FL-308",
+    summary: "He planted a cardboard sign in the sand: Hurricane is coming.",
+    details:
+      "End of the drive. Inlet Beach, 30A, the gulf the color of old nickels. The Visitor stood at the dune line in that tall striped hat and held a weathered cardboard sign in both claws. The letters were careful, almost courteous: Hurricane is coming. People on the access path laughed, then stopped laughing, because the water went flat as a table. He set the sign in the sand, tipped the hat toward the houses, and walked toward the surf without leaving footprints below the high-tide line. The sign was still there at dark. The letters had not smudged. Overnight the wind found them anyway.",
+    oddities: [
+      "Sign text: Hurricane is coming",
+      "Gulf went flat for eleven minutes",
+      "No footprints below the tide line",
+    ],
+    image: "/sightings/hatcat-inlet-beach.jpg",
+    imageCaption: "Dune line at dusk. Inlet Beach, Florida.",
+  },
+  {
     id: "salem",
     place: "Woods off Witch Hill Road",
     city: "Salem",
@@ -312,10 +457,26 @@ export function getSighting(id: string): Sighting | undefined {
 }
 
 export const TENNESSEE_CLUSTER = SIGHTINGS.filter((s) => s.cluster === "nashville-south");
+export const FLORIDA_RUN = SIGHTINGS.filter((s) => s.cluster === "florida-run");
 
 export const US_CENTER: [number, number] = [39.5, -96.5];
 export const US_ZOOM = 4;
 export const TENNESSEE_CENTER: [number, number] = [35.82, -86.88];
 export const TENNESSEE_ZOOM = 9;
-export const YOU_ARE_HERE: [number, number] = [35.7548, -86.9185];
+export const FLORIDA_RUN_CENTER: [number, number] = [32.55, -86.15];
+export const FLORIDA_RUN_ZOOM = 6;
 export const YOU_ARE_HERE_ZOOM = 12;
+
+export const DRIVE_PATH: [number, number][] = [
+  [35.9251, -86.82],
+  [35.7512, -86.83],
+  [35.5, -86.87],
+  [34.992, -86.8445],
+  [33.5207, -86.8025],
+  [33.1096, -86.7539],
+  [32.3668, -86.2999],
+  [31.8088, -85.97],
+  [31.2232, -85.3905],
+  [30.1872, -85.73],
+  [30.2756, -86.0015],
+];
