@@ -1,0 +1,104 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { SIGHTINGS, type Sighting } from "@/lib/sightings";
+
+type SightingsMapProps = {
+  selectedId: string;
+  center: [number, number];
+  zoom: number;
+  youAreHere: [number, number] | null;
+  onSelect: (id: string) => void;
+};
+
+function youAreHereMarkerIcon() {
+  return L.divIcon({
+    className: "you-are-here-pin",
+    html: `<span class="you-are-here-pulse" aria-hidden="true"></span><span class="you-are-here-dot"></span>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+  });
+}
+
+function hatIcon(selected: boolean, inCluster: boolean) {
+  return L.divIcon({
+    className: `hat-pin${selected ? " is-selected" : ""}${inCluster ? " is-cluster" : ""}`,
+    html: `<span class="hat-pin-stack" aria-hidden="true"><span class="hat-pin-crown"></span><span class="hat-pin-brim"></span><span class="hat-pin-head"></span></span>`,
+    iconSize: [28, 46],
+    iconAnchor: [14, 44],
+    popupAnchor: [0, -40],
+  });
+}
+
+function FlyTo({ center, zoom }: { center: [number, number]; zoom: number }) {
+  const map = useMap();
+  useEffect(() => {
+    map.flyTo(center, zoom, { duration: 0.85 });
+  }, [center, zoom, map]);
+  return null;
+}
+
+export default function SightingsMap({ selectedId, center, zoom, youAreHere, onSelect }: SightingsMapProps) {
+  const [ready, setReady] = useState(false);
+  const hereIcon = useMemo(() => youAreHereMarkerIcon(), []);
+  const icons = useMemo(() => {
+    const map = new Map<string, L.DivIcon>();
+    for (const sighting of SIGHTINGS) {
+      map.set(sighting.id, hatIcon(sighting.id === selectedId, sighting.cluster === "nashville-south"));
+    }
+    return map;
+  }, [selectedId]);
+
+  useEffect(() => {
+    setReady(true);
+  }, []);
+
+  if (!ready) {
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-[#0b0708] text-[11px] tracking-[0.35em] text-[#e8d5b5]/50">
+        UNFOLDING THE MAP…
+      </div>
+    );
+  }
+
+  return (
+    <MapContainer
+      center={center}
+      zoom={zoom}
+      minZoom={3}
+      maxZoom={12}
+      scrollWheelZoom
+      className="h-full w-full bg-[#0b0708]"
+      worldCopyJump={false}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <FlyTo center={center} zoom={zoom} />
+      {youAreHere ? (
+        <Marker
+          position={youAreHere}
+          icon={hereIcon}
+          zIndexOffset={1000}
+          interactive={false}
+          title="You are here"
+        />
+      ) : null}
+      {SIGHTINGS.map((sighting: Sighting) => (
+        <Marker
+          key={sighting.id}
+          position={[sighting.lat, sighting.lng]}
+          icon={icons.get(sighting.id)}
+          eventHandlers={{
+            click: () => onSelect(sighting.id),
+          }}
+          title={`${sighting.city}, ${sighting.state}`}
+        />
+      ))}
+    </MapContainer>
+  );
+}
