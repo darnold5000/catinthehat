@@ -314,16 +314,21 @@ export const SIGHTINGS: Sighting[] = [
     fileNumber: "GA-053",
     summary: "The next afternoon, two police cars and their dogs were at the dam.",
     details:
-      "The next day, neighbors told the police the cat in the hat had been in a backyard on Revere Street. That afternoon, two police cars parked at Rocky Shoals Lake Dam, which is just down the road. Dogs walked the dam with the officers. One officer said, \"We are hot on the trail.\" Near the water they found paw prints and a bit of red-and-white thread. The prints led to a small cave in the rocks. It looked like the cat had been hiding there.",
+      "The next day, neighbors told the police the cat in the hat had been in a backyard on Revere Street. That afternoon, two police cars parked at Rocky Shoals Lake Dam, which is just down the road. Dogs walked the dam with the officers. One officer said, \"We will have him soon. We have all the evidence we need to catch him.\" Near the water they found paw prints and a bit of red-and-white thread. The prints led to a small cave in the rocks, far across the lake. It looked like the cat had been hiding there.",
     oddities: [
       "Reported the day after the backyard visit",
       "Two police cars and dogs at the dam",
-      "They said they were hot on the trail",
+      "They said they will have him soon",
+      "They said they have the evidence they need",
       "Paw prints and a bit of hat thread",
-      "A nearby cave looked like his hiding spot",
+      "A cave across the lake looked like his hiding spot",
     ],
     image: "/sightings/hatcat-rocky-shoals-dam.jpg",
     imageCaption: "Afternoon at the dam. Rocky Shoals Lake, Georgia.",
+    gallery: [
+      "/sightings/hatcat-rocky-shoals-dam.jpg",
+      "/sightings/hatcat-rocky-shoals-cave.jpg",
+    ],
   },
   {
     id: "ardmore",
