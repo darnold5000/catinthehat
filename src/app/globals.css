@@ -172,6 +172,60 @@ body {
   box-shadow: 0 0 10px rgba(196, 30, 58, 0.9);
 }
 
+.hat-pin-spotlight {
+  position: relative;
+}
+
+.hat-pin-spotlight-ring {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border: 2px solid rgba(243, 230, 200, 0.85);
+  border-radius: 50%;
+  animation: revere-ring 2s ease-out infinite;
+}
+
+.hat-pin-stack-lg .hat-pin-crown {
+  width: 14px;
+  height: 30px;
+}
+
+.hat-pin-stack-lg .hat-pin-brim {
+  width: 24px;
+  height: 4px;
+}
+
+.hat-pin-stack-lg .hat-pin-head {
+  width: 14px;
+  height: 10px;
+}
+
+.hat-pin-label {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: #f3e6c8;
+  text-shadow: 0 0 8px rgba(196, 30, 58, 0.9);
+  white-space: nowrap;
+}
+
+.hat-pin-spotlight.is-selected .hat-pin-spotlight-ring {
+  border-color: #c41e3a;
+}
+
+@keyframes revere-ring {
+  70%,
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
 .hat-pin.is-selected .hat-pin-stack {
   animation: pulse 1.2s ease-in-out infinite;
   transform: scale(1.15);

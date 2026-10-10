@@ -19,6 +19,10 @@ export type Sighting = {
   oddities: string[];
   image: string;
   imageCaption: string;
+  /** Extra photos (swap in JPGs under public/sightings when ready). */
+  gallery?: string[];
+  /** Larger labeled pin on the map. */
+  mapSpotlight?: boolean;
 };
 
 export const SIGHTINGS: Sighting[] = [
@@ -263,6 +267,39 @@ export const SIGHTINGS: Sighting[] = [
     ],
     image: "/sightings/hatcat-midland-revere.jpg",
     imageCaption: "Revere Street corner. Midland, Georgia.",
+  },
+  {
+    id: "midland-revere-family",
+    place: "Revere Street — wooded-lot block",
+    city: "Midland",
+    state: "GA",
+    lat: 32.5953,
+    lng: -84.8238,
+    date: "October 10–11, 2026",
+    time: "Two nights · 9:48 PM & 11:06 PM",
+    kind: "photo",
+    cluster: "columbus-ga",
+    mapSpotlight: true,
+    witness: "Neighbors on Revere Street and a side-mounted security camera",
+    fileNumber: "GA-052",
+    summary: "Neighbors heard the pot. The side camera kept the proof. Then the trap. Then the window.",
+    details:
+      "Midland, Revere Street, where the houses sit back on wooded lots and the streetlights do not reach every driveway. Night one: the Visitor stood at the edge of a side yard, hat visible above the pines, watching one house the way someone watches a birthday party they were not invited to. Night two: same block — he was closer, still upright, still not leaving. Neighbors reported it after a loud crash on the third night: a sound like a large pot or planter getting knocked over, hard enough to carry through the pines, followed by something heavy falling in the woods behind the lot. The next-door security camera on the side of the house caught what the ears could not explain — still frames only, no audio, but enough. A neighbor set a live trap after the reports. By morning a pile of scrap wood had somehow fallen across it, heavy enough to buckle the door. When they lifted the boards, the trap was empty and bent. The Visitor was not. Later that week the same side camera caught him at the back window: lanky black shape, striped hat filling the top of the frame, yellow-green eyes level with the kitchen counter, very still, very unhappy. He did not wave. He looked in, the way you look in when you remember being caught.",
+    oddities: [
+      "Reported by neighbors — not the family he was watching",
+      "Crash like a large pot or planter knocked over",
+      "Something heavy fell in the woods right after",
+      "Side security camera — still frames on file",
+      "Trap sprung empty; wood pile had no obvious source",
+      "Window sighting on the same camera angle",
+      "Described as 'unhappy' — not polite this time",
+    ],
+    image: "/sightings/hatcat-midland-revere-trap.jpg",
+    imageCaption: "Side camera still. Only the feet. Revere Street, Midland.",
+    gallery: [
+      "/sightings/hatcat-midland-revere-trap.jpg",
+      "/sightings/hatcat-midland-revere-nothappy.jpg",
+    ],
   },
   {
     id: "ardmore",
@@ -564,6 +601,8 @@ export const TENNESSEE_CENTER: [number, number] = [35.82, -86.88];
 export const TENNESSEE_ZOOM = 9;
 export const COLUMBUS_GA_CENTER: [number, number] = [32.48, -84.92];
 export const COLUMBUS_GA_ZOOM = 10;
+export const REVERE_STREET_CENTER: [number, number] = [32.5944, -84.825];
+export const REVERE_STREET_ZOOM = 16;
 export const FLORIDA_RUN_CENTER: [number, number] = [32.55, -86.15];
 export const FLORIDA_RUN_ZOOM = 6;
 export const YOU_ARE_HERE_ZOOM = 12;
@@ -574,6 +613,7 @@ export const DRIVE_PATH: [number, number][] = [
   [35.5, -86.87],
   [32.448, -84.94],
   [32.5934, -84.8262],
+  [32.5953, -84.8238],
   [32.4715, -85.012],
   [34.992, -86.8445],
   [33.5207, -86.8025],

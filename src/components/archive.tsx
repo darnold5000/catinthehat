@@ -4,14 +4,15 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLiveLocation, type LocationStatus } from "@/lib/geolocation";
+import { ReportSightingDialog } from "@/components/report-sighting-dialog";
 import {
   COLUMBUS_GA_CLUSTER,
-  COLUMBUS_GA_CENTER,
-  COLUMBUS_GA_ZOOM,
   FLORIDA_RUN,
   FLORIDA_RUN_CENTER,
   FLORIDA_RUN_ZOOM,
   PORTRAIT_SRC,
+  REVERE_STREET_CENTER,
+  REVERE_STREET_ZOOM,
   SIGHTINGS,
   TENNESSEE_CENTER,
   TENNESSEE_ZOOM,
@@ -42,6 +43,12 @@ function clusterChip(sighting: Sighting): string {
   return sighting.state;
 }
 
+function sightingListLabel(sighting: Sighting): string {
+  if (sighting.id === "midland-revere-family") return "Revere · family";
+  if (sighting.id === "midland-revere") return "Revere · corner";
+  return sighting.city;
+}
+
 function hereLabel(status: LocationStatus): string {
   if (status === "live") return "YOU ARE HERE · LIVE";
   if (status === "locating") return "LOCATING YOU…";
@@ -66,6 +73,8 @@ export function Archive() {
   });
   const { coords: youAreHere, status: hereStatus, requestLocation } = useLiveLocation();
   const flyHereWhenReady = useRef(false);
+  const [reportOpen, setReportOpen] = useState(false);
+  const [reportLocationHint, setReportLocationHint] = useState<string | null>(null);
 
   const selected = useMemo(
     () => SIGHTINGS.find((s) => s.id === selectedId) ?? SIGHTINGS[0],
@@ -87,6 +96,21 @@ export function Archive() {
     flyHereWhenReady.current = true;
   }
 
+  function useLocationForReport() {
+    requestLocation();
+    if (youAreHere) {
+      setReportLocationHint(`${youAreHere[0].toFixed(4)}, ${youAreHere[1].toFixed(4)} (near blue dot)`);
+      return;
+    }
+    setReportLocationHint("Locating… allow location in your browser.");
+    flyHereWhenReady.current = true;
+  }
+
+  useEffect(() => {
+    if (!reportOpen || !youAreHere) return;
+    setReportLocationHint(`${youAreHere[0].toFixed(4)}, ${youAreHere[1].toFixed(4)} (near blue dot)`);
+  }, [reportOpen, youAreHere]);
+
   function selectSighting(id: string) {
     const next = SIGHTINGS.find((s) => s.id === id);
     if (!next) return;
@@ -96,7 +120,12 @@ export function Archive() {
       setMapTarget({ center: [next.lat, next.lng], zoom: 11 });
     } else if (next.cluster === "columbus-ga") {
       setView("columbus-ga");
-      setMapTarget({ center: [next.lat, next.lng], zoom: 11 });
+      const onRevere = next.id === "midland-revere" || next.id === "midland-revere-family";
+      setMapTarget(
+        onRevere
+          ? { center: REVERE_STREET_CENTER, zoom: REVERE_STREET_ZOOM }
+          : { center: [next.lat, next.lng], zoom: 11 },
+      );
     } else if (next.cluster === "florida-run") {
       setView("florida-run");
       setMapTarget({ center: [next.lat, next.lng], zoom: 9 });
@@ -130,6 +159,13 @@ export function Archive() {
             <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{COLUMBUS_GA_CLUSTER.length} COLUMBUS · TRAMPOLINES</span>
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{FLORIDA_RUN.length} ON THE FLORIDA RUN</span>
             <span className="blink border border-[#e8d5b5]/20 px-2 py-1">STATUS: HEADING TO 30A</span>
+            <button
+              type="button"
+              onClick={() => setReportOpen(true)}
+              className="border border-[#c41e3a] bg-[#c41e3a]/25 px-2 py-1 text-[#f3e6c8] hover:bg-[#c41e3a]/40"
+            >
+              REPORT A SIGHTING
+            </button>
           </div>
         </div>
       </header>
@@ -160,8 +196,8 @@ export function Archive() {
                 type="button"
                 onClick={() => {
                   setView("columbus-ga");
-                  setSelectedId("columbus-ga-trampoline");
-                  setMapTarget({ center: COLUMBUS_GA_CENTER, zoom: COLUMBUS_GA_ZOOM });
+                  setSelectedId("midland-revere-family");
+                  setMapTarget({ center: REVERE_STREET_CENTER, zoom: REVERE_STREET_ZOOM });
                 }}
                 className={`font-mono text-[10px] tracking-[0.2em] border px-3 py-1.5 ${
                   view === "columbus-ga"
@@ -207,6 +243,13 @@ export function Archive() {
               >
                 WHOLE COUNTRY
               </button>
+              <button
+                type="button"
+                onClick={() => setReportOpen(true)}
+                className="border border-[#c41e3a] bg-[#c41e3a]/20 px-3 py-1.5 font-mono text-[10px] tracking-[0.2em] text-[#f3e6c8] hover:bg-[#c41e3a]/35"
+              >
+                REPORT SIGHTING
+              </button>
             </div>
           </div>
           <div id="map-region" className="relative min-h-[52vh] flex-1 overflow-hidden border border-[#c41e3a]/30 shadow-[0_0_40px_rgba(196,30,58,0.12)]">
@@ -228,7 +271,7 @@ export function Archive() {
             ) : null}
             {view === "columbus-ga" ? (
               <p className="pointer-events-none absolute top-3 right-3 z-[400] border border-[#c41e3a]/50 bg-[#0b0708]/80 px-2 py-1 font-mono text-[10px] tracking-[0.25em] text-[#f3e6c8]">
-                HE LIKES TRAMPOLINES
+                REVERE ST · 2 NIGHTS · TRAP FILE
               </p>
             ) : null}
             {view === "florida-run" ? (
@@ -252,7 +295,7 @@ export function Archive() {
                   <span className="block font-mono text-[9px] tracking-[0.18em] text-[#c41e3a]">
                     {clusterChip(sighting)} · {KIND_LABEL[sighting.kind]}
                   </span>
-                  <span className="block font-serif text-sm text-[#f3e6c8]">{sighting.city}</span>
+                  <span className="block font-serif text-sm text-[#f3e6c8]">{sightingListLabel(sighting)}</span>
                 </button>
               </li>
             ))}
@@ -260,18 +303,40 @@ export function Archive() {
         </section>
 
         <aside className="border border-[#e8d5b5]/15 bg-[#12090b]/80">
-          <div className="relative aspect-[4/3] border-b border-[#c41e3a]/30">
-            <Image
-              src={selected.image}
-              alt={selected.imageCaption}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 22rem"
-              priority
-            />
-            <p className="absolute right-2 bottom-2 border border-black/40 bg-[#0b0708]/80 px-2 py-1 font-mono text-[9px] tracking-[0.2em] text-[#f3e6c8]">
-              {selected.fileNumber}
-            </p>
+          <div className="border-b border-[#c41e3a]/30">
+            {selected.gallery && selected.gallery.length > 0 ? (
+              <div className="grid grid-cols-1 gap-px bg-[#c41e3a]/30 sm:grid-cols-2">
+                {selected.gallery.map((src, index) => (
+                  <div key={src} className="relative aspect-[4/3] bg-[#0b0708]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt={`${selected.imageCaption} (${index + 1})`}
+                      className="h-full w-full object-cover"
+                    />
+                    {index === 0 ? (
+                      <p className="absolute right-2 bottom-2 border border-black/40 bg-[#0b0708]/80 px-2 py-1 font-mono text-[9px] tracking-[0.2em] text-[#f3e6c8]">
+                        {selected.fileNumber}
+                      </p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src={selected.image}
+                  alt={selected.imageCaption}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 22rem"
+                  priority
+                />
+                <p className="absolute right-2 bottom-2 border border-black/40 bg-[#0b0708]/80 px-2 py-1 font-mono text-[9px] tracking-[0.2em] text-[#f3e6c8]">
+                  {selected.fileNumber}
+                </p>
+              </div>
+            )}
           </div>
           <div className="space-y-3 p-4">
             <p className="font-mono text-[10px] tracking-[0.3em] text-[#c41e3a]">
@@ -296,6 +361,13 @@ export function Archive() {
           </div>
         </aside>
       </main>
+
+      <ReportSightingDialog
+        open={reportOpen}
+        onClose={() => setReportOpen(false)}
+        onUseMyLocation={useLocationForReport}
+        locationHint={reportLocationHint}
+      />
 
       <footer className="relative z-10 border-t border-[#e8d5b5]/10 px-4 py-6 text-center sm:px-6">
         <p className="font-mono text-[10px] tracking-[0.3em] text-[#e8d5b5]/40">

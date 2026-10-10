@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Photo pending">
+  <rect width="800" height="600" fill="#0b0708"/>
+  <rect x="40" y="40" width="720" height="520" fill="none" stroke="#c41e3a" stroke-width="2" stroke-dasharray="12 8"/>
+  <text x="400" y="280" fill="#e8d5b5" font-family="monospace" font-size="28" text-anchor="middle">PHOTO PENDING</text>
+  <text x="400" y="330" fill="#c41e3a" font-family="monospace" font-size="18" text-anchor="middle">TRAP / WOOD  REVERE ST</text>
+</svg>

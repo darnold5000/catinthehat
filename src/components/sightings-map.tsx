@@ -23,7 +23,16 @@ function youAreHereMarkerIcon() {
   });
 }
 
-function hatIcon(selected: boolean, clustered: boolean) {
+function hatIcon(selected: boolean, clustered: boolean, spotlight: boolean) {
+  if (spotlight) {
+    return L.divIcon({
+      className: `hat-pin hat-pin-spotlight${selected ? " is-selected" : ""}`,
+      html: `<span class="hat-pin-spotlight-ring" aria-hidden="true"></span><span class="hat-pin-stack hat-pin-stack-lg" aria-hidden="true"><span class="hat-pin-crown"></span><span class="hat-pin-brim"></span><span class="hat-pin-head"></span></span><span class="hat-pin-label">REVERE ST</span>`,
+      iconSize: [72, 78],
+      iconAnchor: [36, 70],
+      popupAnchor: [0, -64],
+    });
+  }
   return L.divIcon({
     className: `hat-pin${selected ? " is-selected" : ""}${clustered ? " is-cluster" : ""}`,
     html: `<span class="hat-pin-stack" aria-hidden="true"><span class="hat-pin-crown"></span><span class="hat-pin-brim"></span><span class="hat-pin-head"></span></span>`,
@@ -47,7 +56,10 @@ export default function SightingsMap({ selectedId, center, zoom, youAreHere, onS
   const icons = useMemo(() => {
     const map = new Map<string, L.DivIcon>();
     for (const sighting of SIGHTINGS) {
-      map.set(sighting.id, hatIcon(sighting.id === selectedId, Boolean(sighting.cluster)));
+      map.set(
+        sighting.id,
+        hatIcon(sighting.id === selectedId, Boolean(sighting.cluster), Boolean(sighting.mapSpotlight)),
+      );
     }
     return map;
   }, [selectedId]);
@@ -92,15 +104,27 @@ export default function SightingsMap({ selectedId, center, zoom, youAreHere, onS
           title="You are here"
         />
       ) : null}
+      <Polyline
+        positions={[
+          [32.5934, -84.8262],
+          [32.5953, -84.8238],
+        ]}
+        pathOptions={{ color: "#f3e6c8", weight: 3, opacity: 0.55, dashArray: "4 8" }}
+      />
       {SIGHTINGS.map((sighting: Sighting) => (
         <Marker
           key={sighting.id}
           position={[sighting.lat, sighting.lng]}
           icon={icons.get(sighting.id)}
+          zIndexOffset={sighting.mapSpotlight ? 800 : sighting.id === selectedId ? 400 : 0}
           eventHandlers={{
             click: () => onSelect(sighting.id),
           }}
-          title={`${sighting.city}, ${sighting.state}`}
+          title={
+            sighting.mapSpotlight
+              ? `Revere Street — ${sighting.city}, ${sighting.state}`
+              : `${sighting.city}, ${sighting.state}`
+          }
         />
       ))}
     </MapContainer>
