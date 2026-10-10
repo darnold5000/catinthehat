@@ -282,21 +282,24 @@ export const SIGHTINGS: Sighting[] = [
     mapSpotlight: true,
     witness: "Neighbors on Revere Street, and their side camera",
     fileNumber: "GA-052",
-    summary: "He came back two nights. Then a pot crashed. Then the wood fell on him.",
+    summary: "He came back two nights. The next afternoon the police were down the street.",
     details:
-      "On Revere Street in Midland, the houses sit back in the trees. Neighbors said the tall-hat cat showed up two nights in a row. He stood in a yard and watched one house. He did not come closer. He did not leave. On the next night they heard a big crash, like a pot getting knocked over. Then something heavy fell in the woods. A security camera on the side of the house took the pictures. Someone set a trap. In the middle of the night a pile of wood fell on it. Only two feet were sticking out. He got free. Later the same camera saw him behind the tree, holding a sign that said Not Happy Now.",
+      "On Revere Street in Midland, the houses sit back in the trees. Neighbors said the tall-hat cat showed up two nights in a row. He stood in a yard and watched one house. On the next night they heard a big crash, like a pot getting knocked over. Then something heavy fell in the woods. A side camera took the pictures. In the middle of the night a pile of wood fell on a trap. Only two feet were sticking out. He got free. Later he stood behind the tree with a sign that said Not Happy Now. The next day neighbors told the police the cat in the hat had been in the backyard. That afternoon two police cars parked down the street with dogs. An officer said, \"We are hot on the trail.\" They found signs that the cat had been hiding in a cave nearby.",
     oddities: [
       "Seen two nights in a row",
       "A pot crashed, then something fell in the woods",
-      "The side camera took the pictures",
       "Wood fell on the trap. Only his feet showed.",
       "His sign said Not Happy Now",
+      "Next afternoon: two police cars and dogs down the street",
+      "They said they were hot on the trail",
+      "Clues that he hid in a nearby cave",
     ],
     image: "/sightings/hatcat-midland-revere-trap.jpg",
     imageCaption: "Side camera still. Only the feet. Revere Street, Midland.",
     gallery: [
       "/sightings/hatcat-midland-revere-trap.jpg",
       "/sightings/hatcat-midland-revere-nothappy.jpg",
+      "/sightings/hatcat-midland-revere-police.jpg",
     ],
   },
   {
