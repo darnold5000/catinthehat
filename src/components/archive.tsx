@@ -4,7 +4,9 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLiveLocation, type LocationStatus } from "@/lib/geolocation";
+import { LatestUpdateDialog } from "@/components/latest-update-dialog";
 import { ReportSightingDialog } from "@/components/report-sighting-dialog";
+import { LATEST_UPDATE } from "@/lib/latest-update";
 import {
   COLUMBUS_GA_CLUSTER,
   FLORIDA_RUN,
@@ -74,6 +76,7 @@ export function Archive() {
   const { coords: youAreHere, status: hereStatus, requestLocation } = useLiveLocation();
   const flyHereWhenReady = useRef(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [latestOpen, setLatestOpen] = useState(false);
   const [reportLocationHint, setReportLocationHint] = useState<string | null>(null);
 
   const selected = useMemo(
@@ -158,7 +161,14 @@ export function Archive() {
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{SIGHTINGS.length} SIGHTINGS</span>
             <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{COLUMBUS_GA_CLUSTER.length} COLUMBUS · TRAMPOLINES</span>
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{FLORIDA_RUN.length} ON THE FLORIDA RUN</span>
-            <span className="blink border border-[#e8d5b5]/20 px-2 py-1">STATUS: HEADING TO 30A</span>
+            <span className="blink border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">STATUS: STILL LOOKING</span>
+            <button
+              type="button"
+              onClick={() => setLatestOpen(true)}
+              className="blink border border-[#f3e6c8]/40 bg-[#f3e6c8]/10 px-2 py-1 text-[#f3e6c8] hover:bg-[#f3e6c8]/20"
+            >
+              LATEST UPDATE
+            </button>
             <button
               type="button"
               onClick={() => setReportOpen(true)}
@@ -177,6 +187,13 @@ export function Archive() {
               NASHVILLE → COLUMBUS → INLET BEACH · PINS ARE CONFIRMED FILES
             </p>
             <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setLatestOpen(true)}
+                className="border border-[#f3e6c8]/35 bg-[#f3e6c8]/10 px-3 py-1.5 font-mono text-[10px] tracking-[0.2em] text-[#f3e6c8] hover:bg-[#f3e6c8]/20"
+              >
+                LATEST UPDATE
+              </button>
               <button
                 type="button"
                 onClick={() => {
@@ -361,6 +378,12 @@ export function Archive() {
           </div>
         </aside>
       </main>
+
+      <LatestUpdateDialog
+        open={latestOpen}
+        onClose={() => setLatestOpen(false)}
+        onOpenOnMap={() => selectSighting(LATEST_UPDATE.relatedSightingId)}
+      />
 
       <ReportSightingDialog
         open={reportOpen}
