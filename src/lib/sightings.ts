@@ -284,7 +284,7 @@ export const SIGHTINGS: Sighting[] = [
     fileNumber: "GA-052",
     summary: "He came back two nights. Then a pot crashed. Then the wood fell on him.",
     details:
-      "On Revere Street in Midland, the houses sit back in the trees. Neighbors said the tall-hat cat showed up two nights in a row. He stood in a yard and watched one house. He did not come closer. He did not leave. On the next night they heard a big crash, like a pot getting knocked over. Then something heavy fell in the woods. A security camera on the side of the house took the pictures. Someone set a trap. By morning a pile of wood had fallen on it. Only two feet were sticking out. He got free. Later the same camera saw him behind the tree, holding a sign that said Not Happy Now.",
+      "On Revere Street in Midland, the houses sit back in the trees. Neighbors said the tall-hat cat showed up two nights in a row. He stood in a yard and watched one house. He did not come closer. He did not leave. On the next night they heard a big crash, like a pot getting knocked over. Then something heavy fell in the woods. A security camera on the side of the house took the pictures. Someone set a trap. In the middle of the night a pile of wood fell on it. Only two feet were sticking out. He got free. Later the same camera saw him behind the tree, holding a sign that said Not Happy Now.",
     oddities: [
       "Seen two nights in a row",
       "A pot crashed, then something fell in the woods",
