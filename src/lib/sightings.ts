@@ -328,6 +328,8 @@ export const SIGHTINGS: Sighting[] = [
       "/sightings/hatcat-rocky-shoals-cave.jpg",
       "/sightings/hatcat-dam-stalking.jpg",
       "/sightings/hatcat-dam-arrest.jpg",
+      "/sightings/hatcat-jail-bail.jpg",
+      "/sightings/hatcat-fox-news.jpg",
     ],
   },
   {

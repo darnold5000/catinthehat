@@ -77,14 +77,16 @@ export function LatestUpdateDialog({ open, onClose, onOpenOnMap }: LatestUpdateD
               {paragraph}
             </p>
           ))}
-          <ul className="space-y-1 border-t border-[#e8d5b5]/10 pt-3">
-            {LATEST_UPDATE.bullets.map((item) => (
-              <li key={item} className="flex gap-2 font-serif text-sm text-[#e8d5b5]/80">
-                <span className="text-[#c41e3a]" aria-hidden="true">▣</span>
-                {item}
-              </li>
-            ))}
-          </ul>
+          {LATEST_UPDATE.bullets.length > 0 ? (
+            <ul className="space-y-1 border-t border-[#e8d5b5]/10 pt-3">
+              {LATEST_UPDATE.bullets.map((item) => (
+                <li key={item} className="flex gap-2 font-serif text-sm text-[#e8d5b5]/80">
+                  <span className="text-[#c41e3a]" aria-hidden="true">▣</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : null}
           <div className="flex flex-wrap gap-2 pt-2">
             {onOpenOnMap ? (
               <button
