@@ -312,20 +312,22 @@ export const SIGHTINGS: Sighting[] = [
     cluster: "columbus-ga",
     witness: "A neighbor who called the police the next day",
     fileNumber: "GA-053",
-    summary: "Police cars at the dam. Then the cave. Then the boat.",
+    summary: "Police at the dam. A trap. An arrest on the rocks.",
     details:
-      "The next day, neighbors told the police the cat in the hat had been in a backyard on Revere Street. That afternoon, two police cars parked at Rocky Shoals Lake Dam. Dogs walked the dam with the officers. One officer said, \"We will have him soon. We have all the evidence we need to catch him.\" The prints led to a cave across the lake. See Latest Update for what happened next.",
+      "Neighbors told the police about Revere Street. Officers came to Rocky Shoals Lake Dam with dogs. They found a cave and set a trap when they learned the cat was following a family that plays here. See Latest Update for the waterfall photo and the arrest at the spillway.",
     oddities: [
-      "Two police cars and dogs at the dam",
-      "They said they will have him soon",
+      "Police and dogs at the dam",
       "Cave across the lake",
-      "More in Latest Update",
+      "Trap because he was following a family",
+      "Latest Update has the photos",
     ],
     image: "/sightings/hatcat-rocky-shoals-dam.jpg",
     imageCaption: "Afternoon at the dam. Rocky Shoals Lake, Georgia.",
     gallery: [
       "/sightings/hatcat-rocky-shoals-dam.jpg",
       "/sightings/hatcat-rocky-shoals-cave.jpg",
+      "/sightings/hatcat-dam-stalking.jpg",
+      "/sightings/hatcat-dam-arrest.jpg",
     ],
   },
   {

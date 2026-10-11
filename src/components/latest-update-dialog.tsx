@@ -58,6 +58,19 @@ export function LatestUpdateDialog({ open, onClose, onOpenOnMap }: LatestUpdateD
         </div>
 
         <div className="space-y-4 p-4">
+          {LATEST_UPDATE.images && LATEST_UPDATE.images.length > 0 ? (
+            <div className="grid grid-cols-1 gap-px bg-[#c41e3a]/30 sm:grid-cols-2">
+              {LATEST_UPDATE.images.map((item) => (
+                <figure key={item.src} className="bg-[#0b0708]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.src} alt={item.caption} className="aspect-[4/3] w-full object-cover" />
+                  <figcaption className="px-2 py-1 font-mono text-[9px] tracking-[0.15em] text-[#e8d5b5]/50">
+                    {item.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          ) : null}
           <p className="font-serif text-base text-[#f3e6c8]">{LATEST_UPDATE.summary}</p>
           {LATEST_UPDATE.body.map((paragraph) => (
             <p key={paragraph} className="font-serif text-sm leading-relaxed text-[#e8d5b5]/80">

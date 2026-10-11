@@ -60,6 +60,25 @@ body {
   }
 }
 
+.major-alert {
+  animation: major-alert 0.85s steps(1, end) infinite;
+}
+
+@keyframes major-alert {
+  50% {
+    background-color: #c41e3a;
+    color: #fff8e8;
+    box-shadow: 0 0 24px rgba(196, 30, 58, 0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blink,
+  .major-alert {
+    animation: none;
+  }
+}
+
 .leaflet-container {
   font-family: var(--font-mono), ui-monospace, monospace;
   background: #0b0708;

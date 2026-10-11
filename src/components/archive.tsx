@@ -161,7 +161,7 @@ export function Archive() {
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{SIGHTINGS.length} SIGHTINGS</span>
             <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{COLUMBUS_GA_CLUSTER.length} COLUMBUS · TRAMPOLINES</span>
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{FLORIDA_RUN.length} ON THE FLORIDA RUN</span>
-            <span className="blink border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">STATUS: STILL LOOKING</span>
+            <span className="blink border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">STATUS: ARRESTED AT DAM</span>
             <button
               type="button"
               onClick={() => setLatestOpen(true)}
@@ -179,6 +179,19 @@ export function Archive() {
           </div>
         </div>
       </header>
+
+      <div className="relative z-20 border-b border-[#c41e3a] bg-[#1a0508]">
+        <button
+          type="button"
+          onClick={() => setLatestOpen(true)}
+          className="major-alert flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-3 text-center font-mono text-xs tracking-[0.22em] text-[#f3e6c8] sm:text-sm sm:tracking-[0.28em]"
+          aria-live="polite"
+        >
+          <span aria-hidden="true">▲</span>
+          MAJOR UPDATE · {LATEST_UPDATE.fileNumber} · {LATEST_UPDATE.headline.toUpperCase()}
+          <span aria-hidden="true">▲</span>
+        </button>
+      </div>
 
       <main className="relative z-10 mx-auto grid max-w-7xl gap-4 px-4 py-4 lg:grid-cols-[minmax(0,1fr)_22rem] sm:px-6">
         <section className="flex min-h-[70vh] min-w-0 flex-col gap-3">
