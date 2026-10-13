@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Creepster, IM_Fell_English, Share_Tech_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import { createMetadata } from "@/lib/seo";
 import "./globals.css";
 
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to map
         </a>
         {children}
+        <Analytics />
       </body>
     </html>
   );
