@@ -161,7 +161,7 @@ export function Archive() {
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{SIGHTINGS.length} SIGHTINGS</span>
             <span className="border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">{COLUMBUS_GA_CLUSTER.length} COLUMBUS · TRAMPOLINES</span>
             <span className="border border-[#e8d5b5]/20 px-2 py-1">{FLORIDA_RUN.length} ON THE FLORIDA RUN</span>
-            <span className="blink border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">STATUS: IN JAIL</span>
+            <span className="blink border border-[#c41e3a]/40 px-2 py-1 text-[#c41e3a]">STATUS: 9 LIVES IN PRISON</span>
             <button
               type="button"
               onClick={() => setLatestOpen(true)}

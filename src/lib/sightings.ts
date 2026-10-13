@@ -330,6 +330,8 @@ export const SIGHTINGS: Sighting[] = [
       "/sightings/hatcat-dam-arrest.jpg",
       "/sightings/hatcat-jail-bail.jpg",
       "/sightings/hatcat-fox-news.jpg",
+      "/sightings/hatcat-mugshot-oct13.jpg",
+      "/sightings/hatcat-prison-chess.jpg",
     ],
   },
   {

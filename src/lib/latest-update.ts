@@ -1,30 +1,22 @@
 export const LATEST_UPDATE = {
-  fileNumber: "GA-055",
-  date: "October 14, 2026",
-  time: "Evening",
-  headline: "Nine lives in prison. Next stop, Florida.",
+  fileNumber: "FL-309",
+  date: "October 13, 2026",
+  time: "Morning",
+  headline: "Mugshot released. Sentence: nine lives.",
   summary:
-    "The police knew the cat in the tall hat was following a family that liked to play at the dam, so they set a trap and waited. He stood on the left edge of the waterfall and watched the kids. Later, at the spillway, the kids were gone and the officers caught him on the wet rocks. They took him to jail, and from behind the bars he held up a sign that said, Come bail me out please.",
+    "On October 13 the mugshot was released. The cat in the tall hat stood against a gray wall in an orange jumpsuit, hat still on, and looked straight at the camera. The court gave him his sentence that same morning. Nine lives in prison, at the special prison in Florida for storybook villains and animals.",
   body: [
-    "That evening the story came on television. A Fox News report said the cat had been caught and was facing nine lives in prison. He did not look sorry. He told them he was not trying to be bad. He was just having fun and being a cat. The news also said he is being moved to a special prison in Florida, a prison built for storybook villains and animals.",
+    "Later someone spotted him in the prison rec room. He was playing chess with Bowser. Both of them wore orange jumpsuits. The cat reached for a piece, and Bowser watched the board like he did not plan to lose.",
   ],
   bullets: [] as string[],
   images: [
     {
-      src: "/sightings/hatcat-fox-news.jpg",
-      caption: "On TV. Nine lives in prison.",
+      src: "/sightings/hatcat-mugshot-oct13.jpg",
+      caption: "October 13 mugshot. Nine lives.",
     },
     {
-      src: "/sightings/hatcat-jail-bail.jpg",
-      caption: "Cell. Come bail me out please.",
-    },
-    {
-      src: "/sightings/hatcat-dam-stalking.jpg",
-      caption: "Waterfall ledge. He was watching.",
-    },
-    {
-      src: "/sightings/hatcat-dam-arrest.jpg",
-      caption: "Spillway. The trap worked.",
+      src: "/sightings/hatcat-prison-chess.jpg",
+      caption: "Rec room. Chess with Bowser.",
     },
   ],
   relatedSightingId: "rocky-shoals",
